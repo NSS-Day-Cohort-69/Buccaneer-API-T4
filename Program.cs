@@ -311,6 +311,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddCors();
 
 var app = builder.Build();
 
@@ -391,9 +392,9 @@ app.MapGet("/pirates", (string name, string ship) =>
     return filteredPirates;
 });
 
-app.MapGet("/followers", (int? fId, int? pId, string exp) =>
+app.MapGet("/followers", (int? fId, int? pId, string expand) =>
 {
-    if (fId == null && pId == null && exp == null)
+    if (fId == null && pId == null && expand == null)
     {
         // get All Followers
         return Results.Ok(followers.Select(p => new FollowerDTO
@@ -403,7 +404,7 @@ app.MapGet("/followers", (int? fId, int? pId, string exp) =>
             FollowerId = p.FollowerId
         }));
     }
-    else if (fId != null && exp == "expand" && pId == null)
+    else if (fId != null && expand == "pirate" && pId == null)
     {
         // Get All Follower based off FollowerId, then expand Pirate
         return Results.Ok(followers.Where(f => f.FollowerId == fId).Select(f => new FollowerDTO
@@ -466,47 +467,5 @@ app.MapGet("/stories", () =>
 
     });
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 app.Run();
