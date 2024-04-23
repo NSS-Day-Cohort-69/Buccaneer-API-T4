@@ -312,6 +312,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddCors();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -329,19 +331,19 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.MapGet("/pirates", () =>
-{
-    return pirates.Select(p => new PirateDTO
-    {
-        Id = p.Id,
-        Name = p.Name,
-        Age = p.Age,
-        Nationality = p.Nationality,
-        Rank = p.Rank,
-        Ship = p.Ship,
-        ImageUrl = p.ImageUrl
-    });
-});
+// app.MapGet("/pirates", () =>
+// {
+//     return pirates.Select(p => new PirateDTO
+//     {
+//         Id = p.Id,
+//         Name = p.Name,
+//         Age = p.Age,
+//         Nationality = p.Nationality,
+//         Rank = p.Rank,
+//         Ship = p.Ship,
+//         ImageUrl = p.ImageUrl
+//     });
+// });
 
 app.MapGet("/pirates/{id}", (int id) =>
 {
