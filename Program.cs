@@ -443,29 +443,20 @@ app.MapGet("/followers", (int? fId, int? pId, string expand) =>
 });
 
 // http/Local//1342/stories?_expand=pirates
-app.MapGet("/stories", () =>
+app.MapGet("/stories", (string expand) =>
 {
-    return stories.Select(s => new StoryDTO
+    if (expand == "pirate")
+    {
+    return Results.Ok(stories.Select(s => new StoryDTO
     {
         Id = s.Id,
         PirateId = s.PirateId,
-        Pirate = new PirateDTO
-        {
-            Id = pirates.First(f => f.Id == s.PirateId).Id,
-            Name = pirates.First(f => f.Id == s.PirateId).Name,
-            Age = pirates.First(f => f.Id == s.PirateId).Age,
-            Nationality = pirates.First(f => f.Id == s.PirateId).Nationality,
-            Rank = pirates.First(f => f.Id == s.PirateId).Rank,
-            Ship = pirates.First(f => f.Id == s.PirateId).Ship,
-            ImageUrl = pirates.First(f => f.Id == s.PirateId).ImageUrl
-           
-        },
-        Title = s.Title,
-        Content = s.Content,
         Date = s.Date
-        
-
-    });
+    }));
+    }
+    else {
+        return Results.BadRequest();
+    };
 });
 
 app.Run();
