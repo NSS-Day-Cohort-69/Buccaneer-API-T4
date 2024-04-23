@@ -311,6 +311,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddCors();
 
 var app = builder.Build();
 
@@ -442,9 +443,11 @@ app.MapGet("/followers", (int? fId, int? pId, string exp) =>
 });
 
 // http/Local//1342/stories?_expand=pirates
-app.MapGet("/stories", () =>
+app.MapGet("/stories", (string expand) =>
 {
-    return stories.Select(s => new StoryDTO
+    if (expand == "pirate")
+    {
+    return Results.Ok(stories.Select(s => new StoryDTO
     {
         Id = s.Id,
         PirateId = s.PirateId,
@@ -464,7 +467,11 @@ app.MapGet("/stories", () =>
         Date = s.Date
         
 
-    });
+    }));
+    }
+    else {
+        return Results.BadRequest();
+    };
 });
 
 
