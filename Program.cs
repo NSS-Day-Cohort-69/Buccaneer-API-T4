@@ -452,20 +452,28 @@ app.MapGet("/stories", (string expand) =>
         Content = s.Content
     }));
     }
-    else {
+    else
+    {
         return Results.BadRequest();
     };
 });
 
-app.MapDelete("/followers/{id}", (int id) => 
+app.MapDelete("/followers/{id}", (int id) =>
 {
-    Follower follower = followers.FirstOrDefault(f => f.Id ==id);
+    Follower follower = followers.FirstOrDefault(f => f.Id == id);
     if (follower == null)
     {
         return Results.NotFound();
     }
     followers.Remove(follower);
     return Results.NoContent();
+});
+
+app.MapPost("/followers", (Follower newFollower) =>
+{
+    newFollower.Id = followers.Max(i => i.Id) + 1;
+    followers.Add(newFollower);
+    return newFollower;
 });
 
 app.Run();
