@@ -437,7 +437,17 @@ app.MapGet("/stories", (string expand) =>
     {
         Id = s.Id,
         PirateId = s.PirateId,
-        Date = s.Date
+        Date = s.Date,
+        Pirate = new PirateDTO
+        {
+            Id = pirates.FirstOrDefault(p => p.Id == s.PirateId).Id,
+            Name = pirates.FirstOrDefault(p => p.Id == s.PirateId).Name,
+            Age = pirates.FirstOrDefault(p => p.Id == s.PirateId).Age,
+            Nationality = pirates.FirstOrDefault(p => p.Id == s.PirateId).Nationality,
+            Rank = pirates.FirstOrDefault(p => p.Id == s.PirateId).Rank,
+            Ship = pirates.FirstOrDefault(p => p.Id == s.PirateId).Ship,
+            ImageUrl = pirates.FirstOrDefault(p => p.Id == s.PirateId).ImageUrl
+        }
     }));
     }
     else {
