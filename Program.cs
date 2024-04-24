@@ -447,7 +447,9 @@ app.MapGet("/stories", (string expand) =>
             Rank = pirates.FirstOrDefault(p => p.Id == s.PirateId).Rank,
             Ship = pirates.FirstOrDefault(p => p.Id == s.PirateId).Ship,
             ImageUrl = pirates.FirstOrDefault(p => p.Id == s.PirateId).ImageUrl
-        }
+        },
+        Title = s.Title,
+        Content = s.Content
     }));
     }
     else {
