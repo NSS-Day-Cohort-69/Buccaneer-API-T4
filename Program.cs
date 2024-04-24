@@ -433,22 +433,24 @@ app.MapGet("/stories", (string expand) =>
 {
     if (expand == "pirate")
     {
-        return Results.Ok(stories.Select(s => new StoryDTO
+    return Results.Ok(stories.Select(s => new StoryDTO
+    {
+        Id = s.Id,
+        PirateId = s.PirateId,
+        Date = s.Date,
+        Pirate = new PirateDTO
         {
-            Id = s.Id,
-            PirateId = s.PirateId,
-            Date = s.Date,
-            Pirate = new PirateDTO
-            {
-                Id = pirates.FirstOrDefault(p => p.Id == s.PirateId).Id,
-                Name = pirates.FirstOrDefault(p => p.Id == s.PirateId).Name,
-                Age = pirates.FirstOrDefault(p => p.Id == s.PirateId).Age,
-                Nationality = pirates.FirstOrDefault(p => p.Id == s.PirateId).Nationality,
-                Rank = pirates.FirstOrDefault(p => p.Id == s.PirateId).Rank,
-                Ship = pirates.FirstOrDefault(p => p.Id == s.PirateId).Ship,
-                ImageUrl = pirates.FirstOrDefault(p => p.Id == s.PirateId).ImageUrl
-            }
-        }));
+            Id = pirates.FirstOrDefault(p => p.Id == s.PirateId).Id,
+            Name = pirates.FirstOrDefault(p => p.Id == s.PirateId).Name,
+            Age = pirates.FirstOrDefault(p => p.Id == s.PirateId).Age,
+            Nationality = pirates.FirstOrDefault(p => p.Id == s.PirateId).Nationality,
+            Rank = pirates.FirstOrDefault(p => p.Id == s.PirateId).Rank,
+            Ship = pirates.FirstOrDefault(p => p.Id == s.PirateId).Ship,
+            ImageUrl = pirates.FirstOrDefault(p => p.Id == s.PirateId).ImageUrl
+        },
+        Title = s.Title,
+        Content = s.Content
+    }));
     }
     else
     {
